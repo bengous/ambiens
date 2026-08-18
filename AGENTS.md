@@ -10,6 +10,9 @@ river and groundwater context. GitHub Pages under `/ambiens/`.
 - Dev: `bun run dev` (5173); local prod: `bun run build && bun run preview`
   (4173) — both serve under `/ambiens/`.
 - Gate before any delivery: `bun run typecheck && bun run lint && bun run format:check && bun run test:ci`.
+- Every version is pinned exact — deps, actions (full SHA), runner image, Bun
+  (`packageManager`). Add a dep with `bun add --exact`: plain `bun add` writes a
+  `^` range. Bumps come from Dependabot, not by hand.
 
 ## Architecture
 

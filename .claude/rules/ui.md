@@ -12,7 +12,7 @@ paths:
 - `src/components/ui/**` et `components.json` : sortie brute du CLI shadcn.
   Règle lint cassée par le généré → étendre l'override scopé
   `files: ["src/components/ui/**"]` dans `eslint.config.js`, jamais éditer le
-  fichier. Après `bunx shadcn@latest add …` : `bun run format`.
+  fichier. Après `bunx shadcn add …` : `bun run format`.
 - Base UI (`@base-ui/react`) : Accordion — `value`/`defaultValue` sont des
   tableaux, la prop d'ouverture multiple s'appelle `multiple` (pas de `type` ni
   `collapsible`). Combobox async — `filter={null}`, items pilotés par state ;

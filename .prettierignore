@@ -2,3 +2,4 @@ dist
 bun.lock
 plans
 tests/fixtures
+.claude/.sessions
