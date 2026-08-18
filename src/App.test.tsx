@@ -1,10 +1,20 @@
+import { QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import { expect, test } from "vitest";
 import { axe } from "vitest-axe";
+import { creerClientRequetes } from "./api/queries";
 import App from "./App";
 
+function rendreApp() {
+  return render(
+    <QueryClientProvider client={creerClientRequetes()}>
+      <App />
+    </QueryClientProvider>,
+  );
+}
+
 test("affiche le titre de l'application", () => {
-  render(<App />);
+  rendreApp();
 
   expect(
     screen.getByRole("heading", { name: "Potabilis" }),
@@ -12,7 +22,7 @@ test("affiche le titre de l'application", () => {
 });
 
 test("ne présente aucune violation d'accessibilité", async () => {
-  const { container } = render(<App />);
+  const { container } = rendreApp();
 
   expect(await axe(container)).toHaveNoViolations();
 });

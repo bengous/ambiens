@@ -117,6 +117,60 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Verdict sanitaire. Teintes vérifiées AA (>= 6.3:1) sur leur fond et sur la
+   carte, dans les deux thèmes, et toutes dans le gamut sRGB. */
+:root {
+  --verdict-conforme: oklch(0.45 0.1 150);
+  --verdict-conforme-fond: oklch(0.965 0.02 150);
+  --verdict-reserves: oklch(0.46 0.095 75);
+  --verdict-reserves-fond: oklch(0.965 0.02 75);
+  --verdict-non-conforme: oklch(0.47 0.17 27);
+  --verdict-non-conforme-fond: oklch(0.965 0.015 27);
+  --verdict-indetermine: oklch(0.45 0 0);
+  --verdict-indetermine-fond: oklch(0.965 0 0);
+
+  /* Sécheresse : bande de teintes bleu-violet disjointe des verdicts, pour que
+     le contexte local ne se confonde jamais avec le verdict sanitaire. */
+  --secheresse-vigilance: oklch(0.5 0.13 292);
+  --secheresse-alerte: oklch(0.46 0.16 288);
+  --secheresse-renforcee: oklch(0.42 0.18 285);
+  --secheresse-crise: oklch(0.36 0.19 282);
+  --secheresse-fond: oklch(0.965 0.015 288);
+}
+
+.dark {
+  --verdict-conforme: oklch(0.8 0.14 150);
+  --verdict-conforme-fond: oklch(0.25 0.04 150);
+  --verdict-reserves: oklch(0.8 0.13 75);
+  --verdict-reserves-fond: oklch(0.25 0.04 75);
+  --verdict-non-conforme: oklch(0.8 0.11 27);
+  --verdict-non-conforme-fond: oklch(0.25 0.045 27);
+  --verdict-indetermine: oklch(0.8 0 0);
+  --verdict-indetermine-fond: oklch(0.25 0 0);
+
+  --secheresse-vigilance: oklch(0.84 0.07 292);
+  --secheresse-alerte: oklch(0.81 0.08 288);
+  --secheresse-renforcee: oklch(0.78 0.09 285);
+  --secheresse-crise: oklch(0.75 0.11 282);
+  --secheresse-fond: oklch(0.25 0.045 288);
+}
+
+@theme inline {
+  --color-verdict-conforme: var(--verdict-conforme);
+  --color-verdict-conforme-fond: var(--verdict-conforme-fond);
+  --color-verdict-reserves: var(--verdict-reserves);
+  --color-verdict-reserves-fond: var(--verdict-reserves-fond);
+  --color-verdict-non-conforme: var(--verdict-non-conforme);
+  --color-verdict-non-conforme-fond: var(--verdict-non-conforme-fond);
+  --color-verdict-indetermine: var(--verdict-indetermine);
+  --color-verdict-indetermine-fond: var(--verdict-indetermine-fond);
+  --color-secheresse-vigilance: var(--secheresse-vigilance);
+  --color-secheresse-alerte: var(--secheresse-alerte);
+  --color-secheresse-renforcee: var(--secheresse-renforcee);
+  --color-secheresse-crise: var(--secheresse-crise);
+  --color-secheresse-fond: var(--secheresse-fond);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
