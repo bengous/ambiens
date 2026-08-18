@@ -38,7 +38,7 @@ export function PanneauVigieau({ insee }: { insee: string }) {
 
               {(restriction.dateDebut !== null ||
                 restriction.dateFin !== null) && (
-                <p className="text-xs text-muted-foreground">
+                <p className="text-sm text-muted-foreground tabular-nums">
                   Arrêté en vigueur du {formatJour(restriction.dateDebut)} au{" "}
                   {formatJour(restriction.dateFin)}
                 </p>

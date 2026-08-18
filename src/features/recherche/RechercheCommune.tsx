@@ -121,7 +121,7 @@ export function RechercheCommune({
                 className="min-h-11 flex-col items-start gap-0"
               >
                 <span>{suggestion.nom}</span>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-sm text-muted-foreground tabular-nums">
                   {suggestion.codeDepartement}
                   {suggestion.codesPostaux?.[0]
                     ? ` · ${suggestion.codesPostaux[0]}`

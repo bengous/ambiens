@@ -25,7 +25,7 @@ export function PanneauHydro({ insee, centre }: PanneauHydroProps) {
           {stations.map((station) => (
             <li key={station.code} className="flex flex-col gap-1">
               <p className="font-medium">{station.nom}</p>
-              <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
+              <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground tabular-nums">
                 <span className="inline-flex items-center gap-1.5">
                   <MapPinIcon className="size-4" aria-hidden="true" />À{" "}
                   {formatDistance(station.distanceKm)}
@@ -33,7 +33,7 @@ export function PanneauHydro({ insee, centre }: PanneauHydroProps) {
                 </span>
                 {station.coursEau !== null && <span>{station.coursEau}</span>}
               </p>
-              <p className="flex items-center gap-1.5 text-sm">
+              <p className="flex items-center gap-1.5 text-sm tabular-nums">
                 <GaugeIcon className="size-4 shrink-0" aria-hidden="true" />
                 Débit : {formatDebit(station.debitM3s)}
                 {station.dateObs !== null &&

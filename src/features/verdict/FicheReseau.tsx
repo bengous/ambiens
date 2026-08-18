@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Surtitre } from "@/components/Surtitre";
 import { Badge } from "@/components/ui/badge";
 import { CLASSES_TON, formatJour } from "@/features/formats";
 import { CONFORMITES_OFFICIELLES } from "@/lib/libelles";
@@ -65,7 +66,7 @@ function FicheReseau({
           <span className="flex min-w-0 flex-col text-left">
             <span className="font-medium break-words">{reseau.nom}</span>
             {reseau.quartier !== null && (
-              <span className="text-xs text-muted-foreground">
+              <span className="text-sm text-muted-foreground">
                 {reseau.quartier}
               </span>
             )}
@@ -81,7 +82,7 @@ function FicheReseau({
           </p>
         ) : (
           <>
-            <dl className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <dl className="grid grid-cols-1 gap-3 tabular-nums sm:grid-cols-3">
               <div>
                 <dt className="text-xs text-muted-foreground">
                   Prélèvement du
@@ -160,9 +161,12 @@ export function ListeReseaux({ bilans }: { bilans: readonly BilanReseau[] }) {
 
   return (
     <section className="flex flex-col gap-3">
-      <h2 className="font-heading text-lg font-semibold">
-        Réseaux de distribution ({bilans.length})
-      </h2>
+      <div className="flex flex-col gap-1">
+        <Surtitre>Dans le réseau</Surtitre>
+        <h2 className="font-heading text-lg font-semibold sm:text-xl">
+          Réseaux de distribution ({bilans.length})
+        </h2>
+      </div>
       <Accordion multiple defaultValue={ouvertes} className="gap-2">
         {bilans.map((bilan, index) => (
           <FicheReseau key={cles[index]} bilan={bilan} valeur={cles[index]} />

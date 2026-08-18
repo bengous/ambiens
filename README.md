@@ -40,8 +40,8 @@ fraîcheur s'affiche.
   n'affecte pas le verdict sanitaire.
 - Les piézomètres affichés peuvent être à 14–15 km : les plus proches ne
   publient pas tous en temps réel.
-- Thème sombre : les couleurs sombres existent et sont vérifiées AA, mais
-  aucune bascule ne pose la classe `.dark` — l'app s'affiche en clair.
+- Thème sombre : suit `prefers-color-scheme`, sans réglage utilisateur. Un
+  script inline dans `index.html` pose la classe `.dark` avant le bundle.
 
 ## Contraintes CORS vérifiées (18/08/2026)
 
@@ -57,7 +57,9 @@ fraîcheur s'affiche.
 - **bun** — package manager et scripts.
 - **React 19 + TypeScript 6** — UI, typage strict.
 - **Vite 8** — build statique, `base: '/ambiens/'`.
-- **Tailwind CSS v4** — styles, tokens oklch verdict/sécheresse.
+- **Tailwind CSS v4** — styles, tokens oklch marque/verdict/sécheresse.
+- **Inter Variable + Bricolage Grotesque Variable** — corps et titres,
+  auto-hébergées via Fontsource.
 - **shadcn** (style base-vega, primitives Base UI) — composants générés par
   CLI, jamais édités à la main.
 - **TanStack Query 5** — cache et états des requêtes par source.

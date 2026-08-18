@@ -9,6 +9,7 @@ export interface ClassesTon {
   texte: string;
   fond: string;
   bordure: string;
+  barre: string;
 }
 
 // Le scanner Tailwind ne résout aucune concaténation : chaque classe est écrite
@@ -18,21 +19,25 @@ export const CLASSES_TON: Record<TonVerdict, ClassesTon> = {
     texte: "text-verdict-conforme",
     fond: "bg-verdict-conforme-fond",
     bordure: "border-verdict-conforme/30",
+    barre: "border-l-verdict-conforme",
   },
   reserves: {
     texte: "text-verdict-reserves",
     fond: "bg-verdict-reserves-fond",
     bordure: "border-verdict-reserves/30",
+    barre: "border-l-verdict-reserves",
   },
   "non-conforme": {
     texte: "text-verdict-non-conforme",
     fond: "bg-verdict-non-conforme-fond",
     bordure: "border-verdict-non-conforme/30",
+    barre: "border-l-verdict-non-conforme",
   },
   indetermine: {
     texte: "text-verdict-indetermine",
     fond: "bg-verdict-indetermine-fond",
     bordure: "border-verdict-indetermine/30",
+    barre: "border-l-verdict-indetermine",
   },
 };
 

@@ -20,13 +20,22 @@ paths:
 - Scanner Tailwind : aucune concaténation de classes — les classes de ton
   vivent en toutes lettres dans `src/features/formats.ts` (`CLASSES_TON`,
   `CLASSES_SECHERESSE`).
-- Tokens verdict/sécheresse : dans `src/index.css` à la suite des blocs CLI,
-  même modèle (`:root`/`.dark` + `@theme inline`). Valeurs oklch vérifiées AA
-  **et** dans le gamut sRGB — revérifier les deux à toute retouche. Famille
-  sécheresse (teintes 280–295) disjointe des verdicts.
+- Tokens marque/verdict/sécheresse : dans `src/index.css` à la suite des blocs
+  CLI, même modèle (`:root`/`.dark` + `@theme inline`). Valeurs oklch vérifiées
+  AA **et** dans le gamut sRGB — revérifier les deux à toute retouche. Budget de
+  teintes disjointes : marque `--eau-*` 200 et 230, verdicts 27/75/150,
+  sécheresse 280–295. Le bloc marque repointe les tokens shadcn (`--background`,
+  `--primary`…) sans éditer les blocs CLI, qui restent régénérables.
+- Direction « colonne d'eau » : l'ordre robinet → réseau → ressource porte
+  l'information. `Surtitre` nomme la station et son tiret touche le rail de
+  profondeur du conteneur de résultats (`App.tsx`, `sm:` et plus) — les deux
+  décalages se répondent, changer l'un demande de changer l'autre.
+- `font-heading` (Bricolage Grotesque) réservée aux titres : wordmark, verdict,
+  `h2` de section. Valeurs mesurées en `tabular-nums`.
 - Couleur jamais seule porteuse d'information (icône + libellé). Cibles ≥ 44 px.
-- Thème sombre : tokens `.dark` prêts et vérifiés, mais aucune bascule ne pose
-  la classe — l'app s'affiche en clair (assumé dans le README).
+- Thème sombre : suit `prefers-color-scheme`, aucun réglage utilisateur. Le
+  script inline de `index.html` pose `.dark` avant le bundle — l'y laisser,
+  sinon la page apparaît en clair puis bascule.
 - `EtatSection` distingue inactive (skipToken : `pending` +
   `fetchStatus === "idle"`) et hors ligne (`fetchStatus === "paused"`) — ne pas
   réduire à pending/error/success.

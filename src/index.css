@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
+@import "@fontsource-variable/bricolage-grotesque";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -117,6 +118,64 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Marque « colonne d'eau » : teinte 200 (turquoise) et 230 (encre froide),
+   disjointes des verdicts (27/75/150) et de la sécheresse (280–295). Les blocs
+   CLI au-dessus restent intacts : ce bloc les repointe. */
+:root {
+  --eau-encre: oklch(0.24 0.03 230);
+  --eau-papier: oklch(0.985 0.006 210);
+  --eau-surface: oklch(0.965 0.012 205);
+  --eau-vif: oklch(0.48 0.078 200);
+  --eau-profond: oklch(0.34 0.062 228);
+  --eau-trait: oklch(0.9 0.015 210);
+
+  color-scheme: light;
+  --radius: 0.75rem;
+  --background: var(--eau-papier);
+  --foreground: var(--eau-encre);
+  --card-foreground: var(--eau-encre);
+  --popover-foreground: var(--eau-encre);
+  --primary: var(--eau-vif);
+  --primary-foreground: oklch(0.99 0.005 200);
+  --secondary: var(--eau-surface);
+  --secondary-foreground: var(--eau-encre);
+  --muted: var(--eau-surface);
+  --muted-foreground: oklch(0.47 0.025 225);
+  --accent: oklch(0.93 0.03 202);
+  --accent-foreground: var(--eau-encre);
+  --border: var(--eau-trait);
+  --input: var(--eau-trait);
+  --ring: var(--eau-vif);
+}
+
+.dark {
+  --eau-encre: oklch(0.96 0.008 210);
+  --eau-papier: oklch(0.2 0.025 232);
+  --eau-surface: oklch(0.28 0.02 230);
+  --eau-vif: oklch(0.78 0.1 200);
+  --eau-profond: oklch(0.55 0.09 225);
+  --eau-trait: oklch(0.35 0.02 230);
+
+  color-scheme: dark;
+  --background: var(--eau-papier);
+  --foreground: var(--eau-encre);
+  --card: oklch(0.25 0.025 232);
+  --card-foreground: var(--eau-encre);
+  --popover: oklch(0.25 0.025 232);
+  --popover-foreground: var(--eau-encre);
+  --primary: var(--eau-vif);
+  --primary-foreground: oklch(0.2 0.03 232);
+  --secondary: var(--eau-surface);
+  --secondary-foreground: var(--eau-encre);
+  --muted: var(--eau-surface);
+  --muted-foreground: oklch(0.74 0.02 220);
+  --accent: oklch(0.32 0.035 220);
+  --accent-foreground: var(--eau-encre);
+  --border: var(--eau-trait);
+  --input: var(--eau-trait);
+  --ring: var(--eau-vif);
+}
+
 /* Verdict sanitaire. Teintes vérifiées AA (>= 6.3:1) sur leur fond et sur la
    carte, dans les deux thèmes, et toutes dans le gamut sRGB. */
 :root {
@@ -156,6 +215,13 @@
 }
 
 @theme inline {
+  --font-heading: "Bricolage Grotesque Variable", "Inter Variable", sans-serif;
+  --color-eau-encre: var(--eau-encre);
+  --color-eau-papier: var(--eau-papier);
+  --color-eau-surface: var(--eau-surface);
+  --color-eau-vif: var(--eau-vif);
+  --color-eau-profond: var(--eau-profond);
+  --color-eau-trait: var(--eau-trait);
   --color-verdict-conforme: var(--verdict-conforme);
   --color-verdict-conforme-fond: var(--verdict-conforme-fond);
   --color-verdict-reserves: var(--verdict-reserves);
@@ -177,6 +243,11 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-image: linear-gradient(
+      to bottom,
+      var(--eau-surface),
+      transparent 24rem
+    );
   }
   html {
     @apply font-sans;

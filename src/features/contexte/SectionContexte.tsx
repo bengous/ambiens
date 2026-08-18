@@ -1,4 +1,5 @@
 import { DropletOffIcon, DropletsIcon, LayersIcon } from "lucide-react";
+import { Surtitre } from "@/components/Surtitre";
 import {
   Accordion,
   AccordionContent,
@@ -18,9 +19,12 @@ interface SectionContexteProps {
 export function SectionContexte({ insee, centre }: SectionContexteProps) {
   return (
     <section className="flex flex-col gap-3">
-      <h2 className="font-heading text-lg font-semibold">
-        Contexte local — n&apos;affecte pas le verdict sanitaire
-      </h2>
+      <div className="flex flex-col gap-1">
+        <Surtitre>Dans la ressource</Surtitre>
+        <h2 className="font-heading text-lg font-semibold sm:text-xl">
+          Contexte local — n&apos;affecte pas le verdict sanitaire
+        </h2>
+      </div>
       <p className="text-sm text-muted-foreground">
         État de la ressource en eau autour de la commune. Ces mesures ne
         concernent pas la qualité de l&apos;eau du robinet.

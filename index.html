@@ -2,9 +2,25 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
+    <!-- TODO: favicon.svg est un éclair violet #863bff hérité d'un template,
+         étranger à la palette marque (teinte 200). À refaire. -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="L'eau du robinet de votre commune, d'après les contrôles sanitaires officiels SISE-Eaux, avec le contexte sécheresse, rivières et nappes."
+    />
     <title>Ambiens</title>
+    <!-- Avant le bundle : sinon la page apparaît en clair puis bascule. -->
+    <script>
+      var mq = matchMedia("(prefers-color-scheme: dark)");
+      var applique = function (e) {
+        document.documentElement.classList.toggle("dark", e.matches);
+      };
+      applique(mq);
+      mq.addEventListener("change", applique);
+    </script>
   </head>
   <body>
     <div id="root"></div>

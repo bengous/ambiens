@@ -3,6 +3,7 @@ import { useState } from "react";
 import { centreCommune } from "@/api/geo";
 import { optionsCommune, optionsQualite } from "@/api/queries";
 import { EtatSection } from "@/components/EtatSection";
+import { Surtitre } from "@/components/Surtitre";
 import { SectionContexte } from "@/features/contexte/SectionContexte";
 import { RechercheCommune } from "@/features/recherche/RechercheCommune";
 import { ListeReseaux } from "@/features/verdict/FicheReseau";
@@ -23,11 +24,17 @@ function App() {
   return (
     <div className="mx-auto flex min-h-dvh max-w-3xl flex-col gap-6 px-4 py-5 sm:gap-8 sm:py-6">
       <header className="flex flex-col gap-1">
-        <h1 className="font-heading text-2xl font-semibold">Ambiens</h1>
+        <h1 className="font-heading text-xl font-semibold tracking-tight">
+          Ambiens
+        </h1>
         <p className="text-sm text-muted-foreground">
           L&apos;eau du robinet de votre commune, d&apos;après les contrôles
           sanitaires officiels.
         </p>
+        <div
+          aria-hidden="true"
+          className="mt-3 h-px bg-linear-to-r from-eau-vif via-eau-trait to-transparent"
+        />
       </header>
 
       <main className="flex flex-col gap-6 sm:gap-8">
@@ -35,7 +42,12 @@ function App() {
 
         <EtatSection requete={requeteCommune} titreErreur="Commune introuvable">
           {(trouvee) => (
-            <div className="flex flex-col gap-6 sm:gap-8">
+            <div className="relative flex flex-col gap-6 sm:gap-8 sm:pl-8">
+              {/* Rail de profondeur : eau traitée en haut, ressource en bas. */}
+              <div
+                aria-hidden="true"
+                className="absolute inset-y-0 left-3 hidden w-px bg-linear-to-b from-eau-vif to-eau-profond sm:block"
+              />
               <EtatSection
                 requete={requeteQualite}
                 titreErreur="Le contrôle sanitaire est inaccessible"
@@ -44,7 +56,10 @@ function App() {
               >
                 {(bilans) => (
                   <div className="flex flex-col gap-6">
-                    <VerdictGlobal commune={trouvee} bilans={bilans} />
+                    <section className="flex flex-col gap-3">
+                      <Surtitre>Au robinet</Surtitre>
+                      <VerdictGlobal commune={trouvee} bilans={bilans} />
+                    </section>
                     <ListeReseaux bilans={bilans} />
                   </div>
                 )}

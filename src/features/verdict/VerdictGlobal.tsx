@@ -78,25 +78,30 @@ export function VerdictGlobal({ commune, bilans }: VerdictGlobalProps) {
       ];
 
   return (
-    <Card className={cn("ring-0", ton.fond)}>
+    <Card className={cn("border-l-4 ring-0", ton.fond, ton.barre)}>
       <CardHeader>
-        <div className="flex items-start gap-3">
+        <div className="flex items-start gap-3 sm:gap-4">
           <Icone
-            className={cn("size-9 shrink-0", ton.texte)}
+            className={cn("size-10 shrink-0 sm:size-12", ton.texte)}
             aria-hidden="true"
           />
           <div className="flex flex-col gap-0.5">
-            <h2 className={cn("font-heading text-xl font-semibold", ton.texte)}>
+            <h2
+              className={cn(
+                "font-heading text-2xl font-semibold tracking-tight sm:text-3xl",
+                ton.texte,
+              )}
+            >
               {gabarit.libelle}
             </h2>
-            <p className="text-sm font-medium">
+            <p className="text-base font-medium">
               {commune.nom} ({commune.codeDepartement})
             </p>
           </div>
         </div>
       </CardHeader>
       <CardContent>
-        <p className="text-sm">{details.join(" · ")}</p>
+        <p className="text-sm tabular-nums">{details.join(" · ")}</p>
         {tropAncien && (
           <p className="flex items-start gap-2 text-sm font-medium">
             <ClockAlertIcon

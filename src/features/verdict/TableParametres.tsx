@@ -118,7 +118,7 @@ function CarteDepassement({
           {gabarit.libelle}
         </Badge>
       </div>
-      <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
+      <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm tabular-nums">
         <LigneDetail terme="Valeur" valeur={valeurMesuree(ligne)} />
         {ligne.limite_qualite_parametre !== null && (
           <LigneDetail
@@ -142,7 +142,7 @@ function RangCompact({ ligne }: { ligne: ResultatDis }) {
   return (
     <div className="flex flex-col gap-0.5 border-b py-2.5 last:border-b-0">
       <p className="text-sm break-words">{ligne.libelle_parametre ?? "—"}</p>
-      <p className="text-sm">
+      <p className="text-sm tabular-nums">
         <span className="font-medium">{valeurMesuree(ligne)}</span>
         {bornes !== null && (
           <span className="text-muted-foreground"> · {bornes}</span>
@@ -281,11 +281,13 @@ export function TableParametres({
                     <TableCell className="min-w-40 whitespace-normal">
                       {ligne.libelle_parametre ?? "—"}
                     </TableCell>
-                    <TableCell>{valeurMesuree(ligne)}</TableCell>
-                    <TableCell className="whitespace-normal">
+                    <TableCell className="tabular-nums">
+                      {valeurMesuree(ligne)}
+                    </TableCell>
+                    <TableCell className="whitespace-normal tabular-nums">
                       {ligne.limite_qualite_parametre ?? "—"}
                     </TableCell>
-                    <TableCell className="whitespace-normal">
+                    <TableCell className="whitespace-normal tabular-nums">
                       {ligne.reference_qualite_parametre ?? "—"}
                     </TableCell>
                     <TableCell>
