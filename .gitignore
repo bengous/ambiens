@@ -29,3 +29,9 @@ coverage
 
 # Notes de passation entre agents
 .handoff-phase-*.md
+
+# Plans de session, hors du dépôt
+plans/
+
+# Artefacts playwright-cli
+.playwright-cli/
