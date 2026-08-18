@@ -58,12 +58,12 @@ function FicheReseau({
   return (
     <AccordionItem
       value={valeur}
-      className="rounded-lg border px-4 not-last:border-b"
+      className="rounded-lg border px-3 not-last:border-b sm:px-4"
     >
       <AccordionTrigger className="gap-3">
-        <span className="flex flex-1 flex-col items-start gap-1 pr-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-          <span className="flex flex-col text-left">
-            <span className="font-medium">{reseau.nom}</span>
+        <span className="flex min-w-0 flex-1 flex-col items-start gap-1 pr-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+          <span className="flex min-w-0 flex-col text-left">
+            <span className="font-medium break-words">{reseau.nom}</span>
             {reseau.quartier !== null && (
               <span className="text-xs text-muted-foreground">
                 {reseau.quartier}
@@ -90,7 +90,9 @@ function FicheReseau({
               </div>
               <div>
                 <dt className="text-xs text-muted-foreground">Distributeur</dt>
-                <dd>{temoin.nom_distributeur ?? "—"}</dd>
+                <dd className="break-words">
+                  {temoin.nom_distributeur ?? "—"}
+                </dd>
               </div>
               <div>
                 <dt className="text-xs text-muted-foreground">Code réseau</dt>
@@ -112,7 +114,11 @@ function FicheReseau({
                   <li key={champ}>
                     <Badge
                       variant="outline"
-                      className={cn("h-auto py-1", ton.texte, ton.bordure)}
+                      className={cn(
+                        "h-auto py-1 whitespace-normal",
+                        ton.texte,
+                        ton.bordure,
+                      )}
                     >
                       <Icone aria-hidden="true" />
                       {libelle} : {texte}

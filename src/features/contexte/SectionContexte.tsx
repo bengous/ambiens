@@ -28,7 +28,10 @@ export function SectionContexte({ insee, centre }: SectionContexteProps) {
 
       {/* Sans defaultValue : tous les panneaux sont fermés au chargement. */}
       <Accordion multiple className="gap-2">
-        <AccordionItem value="secheresse" className="rounded-lg border px-4">
+        <AccordionItem
+          value="secheresse"
+          className="rounded-lg border px-3 sm:px-4"
+        >
           <AccordionTrigger className="gap-3">
             <span className="flex items-center gap-2">
               <DropletOffIcon className="size-4" aria-hidden="true" />
@@ -40,7 +43,10 @@ export function SectionContexte({ insee, centre }: SectionContexteProps) {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="rivieres" className="rounded-lg border px-4">
+        <AccordionItem
+          value="rivieres"
+          className="rounded-lg border px-3 sm:px-4"
+        >
           <AccordionTrigger className="gap-3">
             <span className="flex items-center gap-2">
               <DropletsIcon className="size-4" aria-hidden="true" />
@@ -52,7 +58,10 @@ export function SectionContexte({ insee, centre }: SectionContexteProps) {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="nappes" className="rounded-lg border px-4">
+        <AccordionItem
+          value="nappes"
+          className="rounded-lg border px-3 sm:px-4"
+        >
           <AccordionTrigger className="gap-3">
             <span className="flex items-center gap-2">
               <LayersIcon className="size-4" aria-hidden="true" />

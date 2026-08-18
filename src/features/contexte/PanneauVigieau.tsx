@@ -24,7 +24,7 @@ export function PanneauVigieau({ insee }: { insee: string }) {
                 <Badge
                   variant="outline"
                   className={cn(
-                    "h-auto py-1",
+                    "h-auto py-1 whitespace-normal",
                     CLASSES_SECHERESSE[restriction.niveau],
                   )}
                 >

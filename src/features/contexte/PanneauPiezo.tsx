@@ -30,7 +30,7 @@ export function PanneauPiezo({ insee, centre }: PanneauPiezoProps) {
             {nappes.map((nappe) => (
               <li key={nappe.codeBss} className="flex flex-col gap-1">
                 <p className="font-medium">{nappe.commune ?? nappe.codeBss}</p>
-                <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                <p className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm text-muted-foreground">
                   <MapPinIcon className="size-4 shrink-0" aria-hidden="true" />À{" "}
                   {formatDistance(nappe.distanceKm)} · code BSS {nappe.codeBss}
                 </p>

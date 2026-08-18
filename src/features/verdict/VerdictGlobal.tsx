@@ -32,7 +32,7 @@ export function BadgeVerdict({ verdict }: { verdict: Verdict }) {
   return (
     <Badge
       variant="outline"
-      className={cn("h-auto py-1", ton.texte, ton.bordure)}
+      className={cn("h-auto py-1 whitespace-normal", ton.texte, ton.bordure)}
     >
       <Icone aria-hidden="true" />
       {gabarit.libelle}

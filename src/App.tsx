@@ -21,7 +21,7 @@ function App() {
   }
 
   return (
-    <div className="mx-auto flex min-h-dvh max-w-3xl flex-col gap-8 px-4 py-6">
+    <div className="mx-auto flex min-h-dvh max-w-3xl flex-col gap-6 px-4 py-5 sm:gap-8 sm:py-6">
       <header className="flex flex-col gap-1">
         <h1 className="font-heading text-2xl font-semibold">Ambiens</h1>
         <p className="text-sm text-muted-foreground">
@@ -30,12 +30,12 @@ function App() {
         </p>
       </header>
 
-      <main className="flex flex-col gap-8">
+      <main className="flex flex-col gap-6 sm:gap-8">
         <RechercheCommune commune={commune} onCommune={choisirCommune} />
 
         <EtatSection requete={requeteCommune} titreErreur="Commune introuvable">
           {(trouvee) => (
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-6 sm:gap-8">
               <EtatSection
                 requete={requeteQualite}
                 titreErreur="Le contrôle sanitaire est inaccessible"
