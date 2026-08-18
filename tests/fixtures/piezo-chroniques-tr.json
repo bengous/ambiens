@@ -1,0 +1,24 @@
+{
+  "count": 2334,
+  "first": "https://hubeau.eaufrance.fr/api/v1/niveaux_nappes/chroniques_tr?code_bss=07013X0071/F1&sort=desc&page=1&size=1",
+  "last": "https://hubeau.eaufrance.fr/api/v1/niveaux_nappes/chroniques_tr?code_bss=07013X0071/F1&sort=desc&page=2334&size=1",
+  "prev": null,
+  "next": "https://hubeau.eaufrance.fr/api/v1/niveaux_nappes/chroniques_tr?code_bss=07013X0071/F1&sort=desc&page=2&size=1",
+  "api_version": "1.4.3",
+  "data": [
+    {
+      "code_bss": "07013X0071/F1",
+      "urn_bss": "http://services.ades.eaufrance.fr/pointeau/07013X0071/F1",
+      "timestamp_mesure": 1787032800000,
+      "niveau_eau_ngf": 351.799,
+      "longitude": 5.9620876112,
+      "latitude": 45.8323892928,
+      "bss_id": "BSS001TURJ",
+      "altitude_station": 357,
+      "altitude_repere": 357.8,
+      "date_mesure": "2026-08-18T06:00:00Z",
+      "profondeur_nappe": 6.001,
+      "date_maj": "2026-08-18"
+    }
+  ]
+}

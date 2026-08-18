@@ -1,0 +1,82 @@
+[
+  {
+    "nom": "Saint-Martinien",
+    "code": "03246",
+    "codesPostaux": [
+      "03380"
+    ],
+    "population": 597,
+    "codeDepartement": "03",
+    "_score": 0.31118686565225034
+  },
+  {
+    "nom": "Saint-Martin",
+    "code": "97801",
+    "codesPostaux": [
+      "97150"
+    ],
+    "population": 31160,
+    "codeDepartement": "978",
+    "_score": 0.2496676080503049
+  },
+  {
+    "nom": "Saint-Martin",
+    "code": "65392",
+    "codesPostaux": [
+      "65360"
+    ],
+    "population": 436,
+    "codeDepartement": "65",
+    "_score": 0.1911834086774964
+  },
+  {
+    "nom": "Saint-Martin",
+    "code": "32389",
+    "codesPostaux": [
+      "32300"
+    ],
+    "population": 434,
+    "codeDepartement": "32",
+    "_score": 0.19117960160814523
+  },
+  {
+    "nom": "Saint-Martin",
+    "code": "67426",
+    "codesPostaux": [
+      "67220"
+    ],
+    "population": 374,
+    "codeDepartement": "67",
+    "_score": 0.19106538952760987
+  },
+  {
+    "nom": "Saint-Martin",
+    "code": "54480",
+    "codesPostaux": [
+      "54450"
+    ],
+    "population": 53,
+    "codeDepartement": "54",
+    "_score": 0.19045435489674564
+  },
+  {
+    "nom": "Saint-Martin-Sainte-Catherine",
+    "code": "23217",
+    "codesPostaux": [
+      "23430"
+    ],
+    "population": 330,
+    "codeDepartement": "23",
+    "_score": 0.1586923109268959
+  },
+  {
+    "nom": "Mont-Saint-Martin",
+    "code": "54382",
+    "codesPostaux": [
+      "54350"
+    ],
+    "population": 9361,
+    "codeDepartement": "54",
+    "_score": 0.14585221867125275
+  }
+]

@@ -1,0 +1,165 @@
+[
+  {
+    "id": 2758805,
+    "idSandre": 3604,
+    "code": "82_74_2",
+    "nom": "Fier",
+    "type": "AEP",
+    "ressourceInfluencee": false,
+    "niveauGravite": "alerte_renforcee",
+    "departement": "74",
+    "arrete": {
+      "id": 37507,
+      "dateDebutValidite": "2026-08-01",
+      "dateFinValidite": "2026-08-31",
+      "cheminFichier": "https://regleau.s3.gra.perf.cloud.ovh.net/arrete-restriction/37507/ARP_DDT-2026-0905.pdf",
+      "cheminFichierArreteCadre": "https://regleau.s3.gra.perf.cloud.ovh.net/arrete-cadre/30487/ARP_cadre_24_0474_240507.pdf"
+    },
+    "usages": [
+      {
+        "id": 2313413,
+        "nom": "Abreuvement des animaux ",
+        "thematique": "Abreuver",
+        "description": "Pas de limitation sauf arrêté spécifique. ",
+        "concerneParticulier": true,
+        "concerneEntreprise": false,
+        "concerneCollectivite": true,
+        "concerneExploitation": true
+      },
+      {
+        "id": 2313415,
+        "nom": "Alimentation des fontaines publiques et privées d’ornement",
+        "thematique": "Alimenter des fontaines et autres usages de loisirs",
+        "description": "L'alimentation en circuit ouvert est interdite sauf dérogation validée par le comité ressource en eau (fiche dérogation en annexe de l'arrêté cadre sécheresse départemental n°DDT-2024-0474)",
+        "concerneParticulier": true,
+        "concerneEntreprise": true,
+        "concerneCollectivite": true,
+        "concerneExploitation": false
+      },
+      {
+        "id": 2313418,
+        "nom": "Arrosage des golfs",
+        "thematique": "Arroser",
+        "description": "Interdiction de 8 h à 20 h et réduction de 60 % des volumes\nUn registre de prélèvement doit être rempli hebdomadairement, présenté immédiatement à l’agent en cas de contrôle et transmis au service de la police de l’eau.",
+        "concerneParticulier": false,
+        "concerneEntreprise": true,
+        "concerneCollectivite": true,
+        "concerneExploitation": false
+      },
+      {
+        "id": 2313419,
+        "nom": "Arrosage des jardins potagers ",
+        "thematique": "Arroser",
+        "description": "Interdiction de 9 h à 20 h ",
+        "concerneParticulier": true,
+        "concerneEntreprise": false,
+        "concerneCollectivite": true,
+        "concerneExploitation": false
+      },
+      {
+        "id": 2313420,
+        "nom": "Arrosage des pelouses, des rond-points, des massifs fleuris, des espaces verts",
+        "thematique": "Arroser",
+        "description": "Interdiction, sauf de 20 h à 8 h pour les arbres et les arbustes plantés en pleine terre depuis moins de 3 ans.",
+        "concerneParticulier": true,
+        "concerneEntreprise": true,
+        "concerneCollectivite": true,
+        "concerneExploitation": true
+      },
+      {
+        "id": 2313421,
+        "nom": "Arrosage des terrains de sport",
+        "thematique": "Arroser",
+        "description": "Interdit de 8 h à 20 h et réduction de 60 % des volumes\nUn registre de prélèvement doit être rempli hebdomadairement et présenté immédiatement à l’agent en cas de contrôle.",
+        "concerneParticulier": false,
+        "concerneEntreprise": true,
+        "concerneCollectivite": true,
+        "concerneExploitation": false
+      },
+      {
+        "id": 2313423,
+        "nom": "Lavage de vehicules chez les particuliers",
+        "thematique": "Nettoyer",
+        "description": "Interdiction",
+        "concerneParticulier": true,
+        "concerneEntreprise": false,
+        "concerneCollectivite": false,
+        "concerneExploitation": false
+      },
+      {
+        "id": 2313424,
+        "nom": "Lavage de véhicules par des professionels ",
+        "thematique": "Nettoyer",
+        "description": "Interdiction sauf:\n- par des professionnels du lavage avec du matériel haute pression \n- ou par le programme ECO des portiques dans la limite de 120 litres par lavage et sous réserve d’installer et de rendre immédiatement accessible un compteur d’eau sur chaque portique\n- ou par un système de recyclage d'eau (minimum 70 % d’eau recyclée)\n- impératifs sanitaires ou techniques (bétonnière...) dûment justifiés",
+        "concerneParticulier": true,
+        "concerneEntreprise": true,
+        "concerneCollectivite": true,
+        "concerneExploitation": true
+      },
+      {
+        "id": 2313425,
+        "nom": "Nettoyage des voiries, des façades, des toitures, des trottoirs et autres surfaces imperméabilisées",
+        "thematique": "Nettoyer",
+        "description": "Interdiction sauf :\n- impératifs sanitaires ou sécuritaires dûment justifiés\n- ou d’impératifs techniques de chantier sous réserve de réduction des volumes utilisés.",
+        "concerneParticulier": true,
+        "concerneEntreprise": true,
+        "concerneCollectivite": true,
+        "concerneExploitation": true
+      },
+      {
+        "id": 2313429,
+        "nom": "Piscines privées à usage familial / non collectif (de plus de 1 m 3) ",
+        "thematique": "Remplir ou vidanger",
+        "description": "Interdiction de remplissage sauf:\r\n- Remise à niveau de 20h à 8h\r\n- Premier remplissage, si le chantier avait débuté avant les premières restrictions.",
+        "concerneParticulier": true,
+        "concerneEntreprise": false,
+        "concerneCollectivite": false,
+        "concerneExploitation": false
+      },
+      {
+        "id": 2313432,
+        "nom": "Piscines publiques ou privées à usage collectif",
+        "thematique": "Remplir ou vidanger",
+        "description": "Interdiction de remplissage sauf pour le premier remplissage, si le chantier avait débuté avant les premières restrictions\nLe remplissage et la vidange sont autorisés pour motif sanitaire ou technique. ",
+        "concerneParticulier": false,
+        "concerneEntreprise": true,
+        "concerneCollectivite": true,
+        "concerneExploitation": false
+      },
+      {
+        "id": 2313435,
+        "nom": "Production de neige de culture",
+        "thematique": "Activités économiques",
+        "description": "Réduction de 50 % des volumes ou des débits\nCette restriction ne s’applique pas lorsque l’eau utilisée provient du déstockage d’une retenue à des fins de production de neige de culture.",
+        "concerneParticulier": false,
+        "concerneEntreprise": true,
+        "concerneCollectivite": true,
+        "concerneExploitation": false
+      },
+      {
+        "id": 2313445,
+        "nom": "Structures gonflables et tubulaires de volume supérieur à 1 m³ privées à usage collectif (type tobbogan aquatique)",
+        "thematique": "Remplir ou vidanger",
+        "description": "Interdiction",
+        "concerneParticulier": true,
+        "concerneEntreprise": true,
+        "concerneCollectivite": true,
+        "concerneExploitation": false
+      },
+      {
+        "id": 2313452,
+        "nom": "Usages industriels, artisanaux et commerciaux",
+        "thematique": "Activités économiques",
+        "description": "Réduction de 50 % des volumes et registre hebdomadaire, sauf pour les activités :\n• consommant moins de 1 000 m3/an dans le milieu ou\n•  consommant moins de 7 000m3/an pour le total prélevé (eau potable et milieu) ;\n•  bénéficient d'un arrêté préfectoral  avec des prescriptions  spécifiques en cas de sécheresse ;\n• pouvant démontrer que leurs besoins en eau utilisée ont été réduits au minimum à travers un Plan de Sobriété Hydrique mis à jour tous les ans. \nPlus de précisions sur l'arrêté cadre",
+        "concerneParticulier": false,
+        "concerneEntreprise": true,
+        "concerneCollectivite": true,
+        "concerneExploitation": false
+      }
+    ],
+    "gid": 3604,
+    "CdZAS": "82_74_2",
+    "LbZAS": "Fier",
+    "TypeZAS": "AEP"
+  }
+]

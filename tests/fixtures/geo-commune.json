@@ -1,0 +1,20 @@
+{
+  "nom": "Annecy",
+  "code": "74010",
+  "codesPostaux": [
+    "74000",
+    "74370",
+    "74600",
+    "74940",
+    "74960"
+  ],
+  "codeDepartement": "74",
+  "population": 132117,
+  "centre": {
+    "type": "Point",
+    "coordinates": [
+      6.1264,
+      45.9024
+    ]
+  }
+}
