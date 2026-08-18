@@ -1,0 +1,40 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:best-practices", ":semanticCommitsDisabled"],
+  "timezone": "Europe/Paris",
+  "schedule": ["before 4am on monday"],
+  "rangeStrategy": "pin",
+  "prConcurrentLimit": 5,
+  "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": {
+    "labels": ["securite"]
+  },
+  "packageRules": [
+    {
+      "description": "Une seule PR hebdomadaire pour tout ce qui n'est pas majeur.",
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "mineures et patches"
+    },
+    {
+      "description": "Les actions GitHub voyagent ensemble, rafraichissement de digest inclus.",
+      "matchManagers": ["github-actions"],
+      "groupName": "github actions"
+    },
+    {
+      "description": "Les majeures attendent une validation depuis le Dependency Dashboard avant qu'une PR soit ouverte.",
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "TS 7 est livre sans API programmatique stable et typescript-eslint plafonne a <6.1.0, or le lint est type-aware (strictTypeChecked + projectService). A reactiver des que typescript-eslint supporte TS 7.",
+      "matchPackageNames": ["typescript"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "Les types Node suivent le runtime reel (Node 22 en local, Bun en CI), pas la derniere majeure publiee.",
+      "matchPackageNames": ["@types/node"],
+      "allowedVersions": "<25"
+    }
+  ]
+}
