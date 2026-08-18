@@ -23,7 +23,7 @@ function App() {
   return (
     <div className="mx-auto flex min-h-dvh max-w-3xl flex-col gap-8 px-4 py-6">
       <header className="flex flex-col gap-1">
-        <h1 className="font-heading text-2xl font-semibold">Potabilis</h1>
+        <h1 className="font-heading text-2xl font-semibold">Ambiens</h1>
         <p className="text-sm text-muted-foreground">
           L&apos;eau du robinet de votre commune, d&apos;après les contrôles
           sanitaires officiels.

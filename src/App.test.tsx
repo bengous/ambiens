@@ -16,9 +16,7 @@ function rendreApp() {
 test("affiche le titre de l'application", () => {
   rendreApp();
 
-  expect(
-    screen.getByRole("heading", { name: "Potabilis" }),
-  ).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: "Ambiens" })).toBeInTheDocument();
 });
 
 test("ne présente aucune violation d'accessibilité", async () => {

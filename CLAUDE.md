@@ -1,4 +1,4 @@
-# ambiens (Potabilis)
+# Ambiens
 
 App statique React : potabilité de l'eau du robinet par commune (contrôles
 SISE-Eaux) + contexte sécheresse/rivières/nappes. GitHub Pages sous `/ambiens/`.
@@ -14,5 +14,5 @@ SISE-Eaux) + contexte sécheresse/rivières/nappes. GitHub Pages sous `/ambiens/
   OPTIONS). HTTP 206 = succès.
 - `src/components/ui/**` et `components.json` : générés par le CLI shadcn,
   jamais édités à la main (détail dans la règle ui).
-- `src/lib/regles.ts` : portage 1:1 du moteur du prototype potabilis, verrouillé
-  par tests — ne pas « améliorer » la cascade de verdicts.
+- `src/lib/regles.ts` : portage 1:1 du moteur du prototype d'origine,
+  verrouillé par tests — ne pas « améliorer » la cascade de verdicts.

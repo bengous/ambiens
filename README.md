@@ -1,4 +1,4 @@
-# Potabilis
+# Ambiens
 
 L'eau du robinet de votre commune est-elle potable ? Réponse à partir des
 contrôles sanitaires officiels (SISE-Eaux), avec le contexte local en plus
