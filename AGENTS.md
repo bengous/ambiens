@@ -39,6 +39,11 @@ river and groundwater context. GitHub Pages under `/ambiens/`.
   never edited by hand (details in the ui rule).
 - `src/lib/regles.ts`: 1:1 port of the engine from the original prototype,
   locked down by tests — do not "improve" the verdict cascade.
+- Agent surface: `public/llms.txt` is hand-written and mirrors `lib/constantes.ts`,
+  `lib/regles.ts` and `lib/libelles.ts`. Nothing guards it automatically — read
+  the surface-agents rule before touching either side.
+- `URL_SITE` / `URL_LLMS_TXT` (`lib/constantes.ts`) are the production origin,
+  hard-coded on purpose: a prompt built in dev must not point at localhost.
 
 ## Keeping these docs honest
 

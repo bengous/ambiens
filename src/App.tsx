@@ -5,6 +5,7 @@ import { optionsCommune, optionsQualite } from "@/api/queries";
 import { EtatSection } from "@/components/EtatSection";
 import { Surtitre } from "@/components/Surtitre";
 import { SectionContexte } from "@/features/contexte/SectionContexte";
+import { DemanderIA } from "@/features/demander-ia/DemanderIA";
 import { RechercheCommune } from "@/features/recherche/RechercheCommune";
 import { ListeReseaux } from "@/features/verdict/FicheReseau";
 import { VerdictGlobal } from "@/features/verdict/VerdictGlobal";
@@ -59,6 +60,7 @@ function App() {
                     <section className="flex flex-col gap-3">
                       <Surtitre>Au robinet</Surtitre>
                       <VerdictGlobal commune={trouvee} bilans={bilans} />
+                      <DemanderIA commune={trouvee} bilans={bilans} />
                     </section>
                     <ListeReseaux bilans={bilans} />
                   </div>

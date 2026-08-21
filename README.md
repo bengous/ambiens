@@ -30,6 +30,35 @@ désaccord éventuel est signalé. Le verdict de la commune est le pire verdict 
 ses réseaux. Au-delà de 183 jours sans prélèvement, un avertissement de
 fraîcheur s'affiche.
 
+## Pour les agents
+
+L'application est rendue côté client : un agent qui récupère le HTML ne voit
+que `<div id="root">`. Le mode d'emploi des sources vit donc dans un fichier
+statique, [`public/llms.txt`](public/llms.txt) : comment passer d'un nom de
+commune à un code INSEE, obtenir les réseaux de distribution et le dernier
+contrôle sanitaire, quelles contraintes Hub'Eau respecter, et quelle cascade
+produit le verdict. Un agent peut refaire le calcul seul, sans lire la page.
+
+`index.html` y renvoie de quatre façons : un commentaire HTML, une
+`<meta name="ai-context">`, un `<link rel="help">` et un bloc JSON-LD.
+
+C'est de la documentation adressée aux agents, jamais une consigne qui
+prétendrait primer sur leurs instructions : le fichier le dit en ouverture.
+Rien n'est dissimulé — le commentaire est dans la source et le fichier est à un
+chemin devinable.
+
+Le `robots.txt` livré est servi sous `/ambiens/`. Les crawlers ne lisent que
+`https://bengous.github.io/robots.txt`, à la racine du domaine, hors de ce
+dépôt : ce fichier est un pointeur lisible, pas une directive appliquée.
+
+Côté humain, le bouton « Demander à une IA » sous le verdict ouvre ChatGPT,
+Claude ou Perplexity avec une invite pré-remplie, ou la copie dans le
+presse-papiers. L'invite embarque la synthèse déjà affichée — verdict, réseaux,
+dépassements avec leur valeur et leur seuil — et renvoie à `llms.txt` pour la
+méthode et les sources. L'IA n'a donc pas à refaire les requêtes ; la seule
+recherche qui lui est demandée porte sur d'éventuelles alertes récentes. Sa
+taille suit les données, et un test la borne à 6 000 caractères par URL.
+
 ## Limites
 
 - Ce site n'est pas un avis médical ni une publication officielle : en cas de
@@ -42,6 +71,9 @@ fraîcheur s'affiche.
   publient pas tous en temps réel.
 - Thème sombre : suit `prefers-color-scheme`, sans réglage utilisateur. Un
   script inline dans `index.html` pose la classe `.dark` avant le bundle.
+- L'invite « Demander à une IA » pointe toujours vers les URLs de production,
+  même en développement : un lien `localhost` serait inutilisable une fois
+  collé dans une IA.
 
 ## Contraintes CORS vérifiées (18/08/2026)
 

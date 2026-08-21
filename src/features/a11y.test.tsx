@@ -10,6 +10,7 @@ import type { NiveauNappe } from "@/api/piezo";
 import { optionsHydro, optionsPiezo, optionsVigieau } from "@/api/queries";
 import type { Restriction } from "@/api/vigieau";
 import { SectionContexte } from "@/features/contexte/SectionContexte";
+import { DemanderIA } from "@/features/demander-ia/DemanderIA";
 import { RechercheCommune } from "@/features/recherche/RechercheCommune";
 import { ListeReseaux } from "@/features/verdict/FicheReseau";
 import { VerdictGlobal } from "@/features/verdict/VerdictGlobal";
@@ -198,6 +199,16 @@ test("SectionContexte ne présente aucune violation d'accessibilité", async () 
   expect(screen.getByText("Le Fier à Dingy-Saint-Clair")).toBeInTheDocument();
   expect(screen.getByText("Marigny-Saint-Marcel")).toBeInTheDocument();
   expect(await axe(container)).toHaveNoViolations();
+});
+
+// La modale est montée dans un portail : axe doit voir `document.body`.
+test("DemanderIA ne présente aucune violation d'accessibilité", async () => {
+  rendre(<DemanderIA commune={COMMUNE} bilans={BILANS} />);
+
+  fireEvent.click(screen.getByRole("button", { name: /Demander à une IA/ }));
+
+  expect(screen.getByRole("link", { name: /ChatGPT/ })).toBeInTheDocument();
+  expect(await axe(document.body)).toHaveNoViolations();
 });
 
 test("RechercheCommune ne présente aucune violation d'accessibilité", async () => {

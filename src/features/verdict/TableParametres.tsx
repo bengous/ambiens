@@ -16,7 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CLASSES_TON } from "@/features/formats";
+import { CLASSES_TON, valeurMesuree } from "@/features/formats";
 import { STATUTS_PARAMETRE, type TonVerdict } from "@/lib/libelles";
 import {
   categorieParametre,
@@ -39,16 +39,6 @@ interface Rang {
   ligne: ResultatDis;
   statut: Statut;
   entete: CategorieParametre | null;
-}
-
-function valeurMesuree(ligne: ResultatDis): string {
-  // resultat_numerique vaut 0 quand l'alphanumérique dit « <0,2 » : seul
-  // l'alphanumérique est fidèle. Unité masquée quand elle vaut SANS OBJET.
-  const valeur = ligne.resultat_alphanumerique ?? "—";
-  const unite = ligne.libelle_unite;
-  return unite !== null && unite !== "SANS OBJET"
-    ? `${valeur} ${unite}`
-    : valeur;
 }
 
 // Tri porté du prototype : ordre de statut d'abord, catégorie ensuite.

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Ambiens vit sous /ambiens/ : les crawlers ne lisent que le robots.txt de la
+# racine du domaine, que ce dépôt ne possède pas. Ce fichier est donc un
+# pointeur lisible, pas une directive appliquée.
+# Mode d'emploi pour agents : https://bengous.github.io/ambiens/llms.txt

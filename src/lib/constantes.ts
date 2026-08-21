@@ -7,6 +7,12 @@ export const API_HUBEAU_PIEZO =
   "https://hubeau.eaufrance.fr/api/v1/niveaux_nappes";
 export const API_VIGIEAU = "https://api.vigieau.gouv.fr/api/zones";
 
+// Origine publique figée : une invite construite en dev pointerait sinon sur
+// localhost, inutilisable une fois collée dans une IA. À garder alignée sur
+// `base` (vite.config.ts).
+export const URL_SITE = "https://bengous.github.io/ambiens/";
+export const URL_LLMS_TXT = `${URL_SITE}llms.txt`;
+
 export const SIX_MOIS_MS = 183 * 24 * 3600 * 1000;
 export const UN_AN_MS = 365 * 24 * 3600 * 1000;
 

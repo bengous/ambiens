@@ -12,9 +12,10 @@ import type { BilanReseau } from "@/api/hubeau-qualite";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { CLASSES_TON, formatJour } from "@/features/formats";
+import { synthetiserCommune } from "@/features/verdict/synthese";
 import { SIX_MOIS_MS } from "@/lib/constantes";
 import { VERDICTS } from "@/lib/libelles";
-import { verdictCommune, type Verdict } from "@/lib/regles";
+import type { Verdict } from "@/lib/regles";
 import { cn } from "@/lib/utils";
 
 // La couleur ne porte jamais seule l'information : icône + libellé l'accompagnent.
@@ -49,28 +50,21 @@ export function VerdictGlobal({ commune, bilans }: VerdictGlobalProps) {
   // L'horloge est un état externe : la lire pendant le rendu rendrait le
   // composant non idempotent.
   const [maintenant] = useState(() => Date.now());
-  const avecDonnees = bilans.filter((bilan) => bilan.prelevement !== null);
-  const verdict = verdictCommune(
-    avecDonnees.map((bilan) => bilan.evaluation.verdict),
-  );
+  const { verdict, plusRecent, avecDonnees, total } =
+    synthetiserCommune(bilans);
   const gabarit = VERDICTS[verdict];
   const ton = CLASSES_TON[gabarit.ton];
   const Icone = ICONES_VERDICT[verdict];
 
-  const dates = avecDonnees
-    .flatMap((bilan) => bilan.prelevement ?? [])
-    .map((ligne) => ligne.date_prelevement)
-    .sort();
-  const plusRecent = dates.at(-1) ?? null;
   const tropAncien =
     plusRecent !== null &&
     maintenant - new Date(plusRecent).getTime() > SIX_MOIS_MS;
 
-  const details = avecDonnees.length
+  const details = avecDonnees
     ? [
         `Dernier prélèvement le ${formatJour(plusRecent)}`,
-        bilans.length > 1
-          ? `${String(avecDonnees.length)} réseaux sur ${String(bilans.length)} avec données`
+        total > 1
+          ? `${String(avecDonnees)} réseaux sur ${String(total)} avec données`
           : "1 réseau de distribution",
       ]
     : [

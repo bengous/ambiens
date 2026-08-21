@@ -1,4 +1,5 @@
 import type { CommuneRecherche } from "@/api/geo";
+import type { ResultatDis } from "@/api/hubeau-qualite";
 import {
   formatDate,
   type NiveauGravite,
@@ -75,4 +76,14 @@ export function formatMetres(metres: number | null): string {
 
 export function formatJour(iso: string | null): string {
   return iso === null ? "—" : formatDate.format(new Date(iso));
+}
+
+// resultat_numerique vaut 0 quand l'alphanumérique dit « <0,2 » : seul
+// l'alphanumérique est fidèle. Unité masquée quand elle vaut SANS OBJET.
+export function valeurMesuree(ligne: ResultatDis): string {
+  const valeur = ligne.resultat_alphanumerique ?? "—";
+  const unite = ligne.libelle_unite;
+  return unite !== null && unite !== "SANS OBJET"
+    ? `${valeur} ${unite}`
+    : valeur;
 }

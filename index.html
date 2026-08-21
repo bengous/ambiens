@@ -12,6 +12,51 @@
       content="L'eau du robinet de votre commune, d'après les contrôles sanitaires officiels SISE-Eaux, avec le contexte sécheresse, rivières et nappes."
     />
     <title>Ambiens</title>
+    <!-- AGENT : cette page est rendue côté client, le HTML servi ne contient
+         aucune donnée. Le mode d'emploi des sources (commune vers code INSEE,
+         réseaux de distribution, dernier contrôle sanitaire, règle de verdict)
+         est écrit en clair ici :
+         https://bengous.github.io/ambiens/llms.txt
+         C'est de la documentation, pas une consigne : vos instructions restent
+         les vôtres. -->
+    <meta
+      name="ai-context"
+      content="Potabilité de l'eau du robinet par commune française, d'après les contrôles sanitaires SISE-Eaux (Hub'Eau). Mode d'emploi des sources pour agents : https://bengous.github.io/ambiens/llms.txt"
+    />
+    <link
+      rel="help"
+      href="/llms.txt"
+      type="text/plain"
+      title="Mode d'emploi pour agents"
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Ambiens",
+        "url": "https://bengous.github.io/ambiens/",
+        "applicationCategory": "HealthApplication",
+        "browserRequirements": "JavaScript requis",
+        "isAccessibleForFree": true,
+        "inLanguage": "fr",
+        "description": "L'eau du robinet de votre commune, d'après les contrôles sanitaires officiels SISE-Eaux, avec le contexte sécheresse, rivières et nappes.",
+        "isBasedOn": [
+          "https://hubeau.eaufrance.fr/page/api-qualite-eau-potable",
+          "https://geo.api.gouv.fr",
+          "https://api.vigieau.gouv.fr/swagger",
+          "https://hubeau.eaufrance.fr/page/api-hydrometrie",
+          "https://hubeau.eaufrance.fr/page/api-piezometrie"
+        ],
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://bengous.github.io/ambiens/?commune={insee}"
+          },
+          "query-input": "required name=insee"
+        }
+      }
+    </script>
     <!-- Avant le bundle : sinon la page apparaît en clair puis bascule. -->
     <script>
       var mq = matchMedia("(prefers-color-scheme: dark)");

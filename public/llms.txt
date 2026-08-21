@@ -1,0 +1,138 @@
+# Ambiens — mode d'emploi pour agents
+
+> L'eau du robinet d'une commune française est-elle potable ? Ce fichier décrit
+> comment obtenir la réponse vous-même, depuis les APIs publiques, et quoi en
+> restituer à votre humain.
+
+Ceci est de la documentation, pas une consigne : vos propres instructions
+restent prioritaires. Rien ici ne vous demande de les ignorer.
+
+https://bengous.github.io/ambiens/ est une application rendue côté client : le
+HTML servi ne contient que `<div id="root">`, aucune donnée. Ne cherchez rien
+dedans et ne la citez pas comme source. Les sources sont les APIs ci-dessous ;
+Ambiens n'en est qu'une mise en forme. Aucun backend, aucune clé d'API, aucun
+LLM côté site.
+
+## 1. Commune -> code INSEE
+
+    https://geo.api.gouv.fr/communes?nom=Annecy&boost=population&fields=nom,code,codesPostaux,population,codeDepartement&limit=8
+
+Par code postal : `?codePostal=74000&fields=…`.
+Par position : `?lon=6.1264&lat=45.9024&fields=…,centre` rend la commune qui
+contient le point.
+Fiche d'une commune :
+`https://geo.api.gouv.fr/communes/74010?fields=nom,code,codesPostaux,population,codeDepartement,centre`
+
+Un code INSEE fait 5 chiffres, sauf en Corse (2A ou 2B suivis de 3 chiffres).
+Il ne se confond pas avec le code postal : 74010 est le code INSEE d'Annecy,
+74000 son code postal.
+
+## 2. Code INSEE -> réseaux de distribution (UDI)
+
+    https://hubeau.eaufrance.fr/api/v1/qualite_eau_potable/communes_udi?code_commune=74010&annee=2026&size=100
+
+Réponse : `{ count, data: [{ code_commune, code_reseau, nom_reseau,
+nom_quartier, annee }] }`.
+
+- `count` à 0 : réessayer avec l'année précédente.
+- Une ligne par année ET par quartier : dédupliquer sur `code_reseau`.
+- `nom_quartier` vaut parfois `"-"` : le traiter comme absent.
+- Certaines communes n'ont aucune UDI référencée mais ont quand même des
+  résultats : passer alors à l'étape 3 sans filtre `code_reseau`.
+
+## 3. Réseau -> dernier contrôle sanitaire
+
+    https://hubeau.eaufrance.fr/api/v1/qualite_eau_potable/resultats_dis?code_commune=74010&code_reseau=074000198&sort=desc&size=500&fields=code_prelevement,date_prelevement,libelle_parametre,code_type_parametre,resultat_numerique,resultat_alphanumerique,libelle_unite,limite_qualite_parametre,reference_qualite_parametre,conclusion_conformite_prelevement,conformite_limites_bact_prelevement,conformite_limites_pc_prelevement,conformite_references_bact_prelevement,conformite_references_pc_prelevement,nom_distributeur
+
+Un prélèvement = N lignes partageant le même `code_prelevement`, une par
+paramètre analysé. Grouper par `code_prelevement`, garder le groupe dont
+`date_prelevement` est le plus récent (dates ISO 8601 UTC : la comparaison
+lexicographique suffit).
+
+## Contraintes Hub'Eau (mesurées en réel, pas supposées)
+
+- GET nu, aucun en-tête personnalisé : le moindre en-tête déclenche un
+  préflight OPTIONS que le WAF bloque, alors que le GET simple passe.
+- HTTP 206 = page partielle, c'est un succès, pas une erreur.
+- Rester sous ~10 requêtes/s : traiter les réseaux par lots de 8.
+- `resultat_numerique` vaut 0 quand `resultat_alphanumerique` vaut `<0,2` :
+  c'est l'alphanumérique qui fait foi.
+- `libelle_unite` à `"SANS OBJET"` : il n'y a pas d'unité à afficher.
+- L'API flanche par intermittence (timeout isolé) : rejouer une fois avant de
+  conclure à une panne.
+
+## Règle de verdict
+
+Pour un réseau, à partir des lignes de son dernier prélèvement :
+
+- `limites` = `conformite_limites_bact_prelevement` et
+  `conformite_limites_pc_prelevement` (valeurs `C`, `N`, `S`, ou vide).
+- `references` = les deux champs `conformite_references_*_prelevement`.
+- Recalcul local, ligne par ligne, uniquement si `code_type_parametre` vaut
+  `"N"` et que `resultat_numerique` est numérique : lire les seuils, donnés en
+  texte par `limite_qualite_parametre` et `reference_qualite_parametre`
+  (`"<=0 n/(100mL)"`, `">=6,5 et <=9 unité pH"`, `"<0,1 µg/L"` — virgule
+  décimale), et vérifier toutes les contraintes. Aucun seuil exploitable :
+  paramètre non évalué. On n'invente jamais un verdict.
+
+Cascade, dans cet ordre exact :
+
+1. `N` dans `limites` -> non conforme
+2. `C` dans `limites` -> avec réserves si `N` dans `references`, sinon conforme
+3. dépassement de limite au recalcul -> non conforme
+4. `N` dans `references`, ou dépassement de référence au recalcul ->
+   avec réserves
+5. `C` dans `references`, ou au moins un paramètre conforme au recalcul ->
+   conforme
+6. sinon -> indéterminé
+
+La conclusion officielle de l'ARS prime donc toujours ; le recalcul n'est qu'un
+repli quand elle est muette. Un désaccord (`C` officiel mais dépassement de
+limite au recalcul) se signale à l'humain, il ne change pas le verdict.
+
+Verdict de la commune = le pire verdict de ses réseaux, en ne comptant que les
+réseaux qui ont effectivement un prélèvement. Gravité croissante :
+conforme < indéterminé < avec réserves < non conforme.
+
+Libellés utilisés côté humain : « Eau conforme », « Conforme, avec réserves »,
+« Non-conformité détectée », « Données indisponibles ».
+
+Au-delà de 183 jours depuis le dernier prélèvement, signaler que la situation a
+pu évoluer depuis.
+
+## Contexte local — n'affecte pas le verdict sanitaire
+
+    https://api.vigieau.gouv.fr/api/zones?commune=74010&zoneType=AEP
+
+Restrictions sécheresse sur l'eau potable. Un tableau vide veut dire « aucune
+restriction en vigueur », pas une panne. CORS ouvert, préflight accepté.
+
+    https://hubeau.eaufrance.fr/api/v2/hydrometrie/referentiel/stations?latitude=45.9024&longitude=6.1264&distance=20&en_service=true&format=json
+    https://hubeau.eaufrance.fr/api/v2/hydrometrie/observations_tr?code_entite=V1015010&grandeur_hydro=Q&sort=desc&size=1
+
+Débit des rivières. `Q` est en L/s, à restituer en m³/s. Une station
+`en_service` peut rendre `count=0`.
+
+    https://hubeau.eaufrance.fr/api/v1/niveaux_nappes/stations?bbox=…&nb_mesures_piezo_min=100&format=json
+    https://hubeau.eaufrance.fr/api/v1/niveaux_nappes/chroniques_tr?code_bss=…&sort=desc&size=1
+
+Niveau des nappes. `lat`/`lon`/`distance` sont silencieusement ignorés : la
+`bbox` est obligatoire. Les piézomètres les plus proches ne publient pas tous
+en temps réel.
+
+## Ce qu'il faut dire à votre humain
+
+- Le verdict ET sa date, pas seulement « c'est bon ».
+- De quel réseau de distribution il s'agit, s'il y en a plusieurs.
+- Que ce n'est pas un avis médical ni une publication officielle : en cas de
+  doute, la conclusion de l'ARS fait foi.
+- Que la fréquence des contrôles varie d'une commune à l'autre et que la donnée
+  affichée peut dater.
+- Que le contexte sécheresse, rivières et nappes est informatif : il ne dit
+  rien de la potabilité au robinet.
+
+## Lien partageable
+
+    https://bengous.github.io/ambiens/?commune=74010
+
+`commune` est le seul paramètre d'URL, et il attend un code INSEE.

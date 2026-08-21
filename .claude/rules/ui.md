@@ -33,6 +33,10 @@ paths:
 - `font-heading` (Bricolage Grotesque) réservée aux titres : wordmark, verdict,
   `h2` de section. Valeurs mesurées en `tabular-nums`.
 - Couleur jamais seule porteuse d'information (icône + libellé). Cibles ≥ 44 px.
+- Lien sortant : ancre nue (`target="_blank" rel="noopener noreferrer"`) stylée
+  par `buttonVariants(...)` en `className`, pas `Button render=` qui plaquerait
+  la sémantique bouton sur un lien. Icône `ExternalLinkIcon` et mention
+  `sr-only` du nouvel onglet.
 - Thème sombre : suit `prefers-color-scheme`, aucun réglage utilisateur. Le
   script inline de `index.html` pose `.dark` avant le bundle — l'y laisser,
   sinon la page apparaît en clair puis bascule.
