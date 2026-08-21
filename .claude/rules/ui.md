@@ -5,6 +5,10 @@ paths:
   - "src/App.tsx"
   - "src/index.css"
   - "eslint.config.js"
+  - "index.html"
+  - "public/favicon.svg"
+  - "public/site.webmanifest"
+  - "public/brand/**"
 ---
 
 # UI
@@ -26,6 +30,44 @@ paths:
   teintes disjointes : marque `--eau-*` 200 et 230, verdicts 27/75/150,
   sécheresse 280–295. Le bloc marque repointe les tokens shadcn (`--background`,
   `--primary`…) sans éditer les blocs CLI, qui restent régénérables.
+- `--marque-turquoise` / `--marque-marine` échappent aux deux règles ci-dessus :
+  hexadécimal plutôt qu'oklch, teintes 184,6 et 262,1 hors du budget. Ce sont
+  les couleurs du logo, pas des tokens d'interface — le logo est `aria-hidden`,
+  hors des cartes de résultat, et l'hexadécimal le garde identique aux PNG
+  rastérisés. En sombre la marine passe à `#547ecd` : `#072767` sur
+  `--eau-surface` mesure 1,03:1, la moitié du logo disparaît.
+- La géométrie du logo vit en trois exemplaires : `public/brand/ambiens-icon.svg`
+  (source de rastérisation, monochrome clair), `public/favicon.svg` (cadrage
+  serré + règle `prefers-color-scheme: dark`) et `src/components/LogoAmbiens.tsx`
+  (JSX inline — un `<img>` ne peut pas lire la classe `.dark`). Retoucher un
+  tracé = retoucher les trois ; `LogoAmbiens.test.tsx` les compare par import
+  Vite `?raw` et casse à la moindre dérive.
+- Icônes d'app régénérées depuis `ambiens-icon.svg`, plaque blanche opaque,
+  fichiers suivis par git :
+
+  ```
+  for T in 180 192 512; do
+    inkscape --export-type=png --export-filename=public/brand/ambiens-$T.png \
+      -w $T -h $T --export-background='#ffffff' --export-background-opacity=1 \
+      public/brand/ambiens-icon.svg
+  done
+  inkscape --export-type=png \
+    --export-filename=public/brand/ambiens-512-maskable.png \
+    -w 512 -h 512 --export-area=-227:-224:1414:1417 \
+    --export-background='#ffffff' --export-background-opacity=1 \
+    public/brand/ambiens-icon.svg
+  ```
+
+  L'aire maskable est un canevas de 1641 unités centré sur l'emprise de la
+  marque : mesuré, le point le plus éloigné tombe pile sur le cercle de sécurité
+  de 40 % du canevas. Plus large, la pointe turquoise se fait rogner par le
+  masque.
+
+- `public/site.webmanifest` : chemins **relatifs** au manifeste. Vite applique
+  `base` aux attributs HTML, jamais au contenu d'un JSON — `/brand/…` casserait
+  en production sans casser le build. `theme_color` et `background_color` valent
+  `#f6fbfc`, l'hexadécimal exact de `--eau-papier` en clair ; les deux
+  `theme-color` de `index.html` ajoutent `#09181f` pour le sombre.
 - Direction « colonne d'eau » : l'ordre robinet → réseau → ressource porte
   l'information. `Surtitre` nomme la station et son tiret touche le rail de
   profondeur du conteneur de résultats (`App.tsx`, `sm:` et plus) — les deux

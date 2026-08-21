@@ -1,0 +1,22 @@
+{
+  "name": "Ambiens",
+  "short_name": "Ambiens",
+  "description": "L'eau du robinet de votre commune, d'après les contrôles sanitaires officiels SISE-Eaux, avec le contexte sécheresse, rivières et nappes.",
+  "lang": "fr",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "theme_color": "#f6fbfc",
+  "background_color": "#f6fbfc",
+  "icons": [
+    { "src": "brand/ambiens-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "brand/ambiens-512.png", "sizes": "512x512", "type": "image/png" },
+    {
+      "src": "brand/ambiens-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

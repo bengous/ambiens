@@ -176,6 +176,21 @@
   --ring: var(--eau-vif);
 }
 
+/* Couleurs du logo, deux exceptions assumées au bloc ci-dessus : hexadécimal
+   plutôt qu'oklch, pour que le logo d'en-tête soit au pixel identique aux PNG
+   rastérisés depuis `public/brand/ambiens-icon.svg` ; teintes 184,6 et 262,1
+   hors du budget de teintes disjointes, parce que le logo est décoratif
+   (`aria-hidden`) et ne porte aucun verdict. La marine est liftée en sombre :
+   `#072767` sur `--eau-surface` mesure 1,03:1. */
+:root {
+  --marque-turquoise: #2cc2b3;
+  --marque-marine: #072767;
+}
+
+.dark {
+  --marque-marine: #547ecd;
+}
+
 /* Verdict sanitaire. Teintes vérifiées AA (>= 6.3:1) sur leur fond et sur la
    carte, dans les deux thèmes, et toutes dans le gamut sRGB. */
 :root {
@@ -222,6 +237,8 @@
   --color-eau-vif: var(--eau-vif);
   --color-eau-profond: var(--eau-profond);
   --color-eau-trait: var(--eau-trait);
+  --color-marque-turquoise: var(--marque-turquoise);
+  --color-marque-marine: var(--marque-marine);
   --color-verdict-conforme: var(--verdict-conforme);
   --color-verdict-conforme-fond: var(--verdict-conforme-fond);
   --color-verdict-reserves: var(--verdict-reserves);

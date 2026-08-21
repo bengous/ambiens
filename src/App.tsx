@@ -3,6 +3,7 @@ import { useState } from "react";
 import { centreCommune } from "@/api/geo";
 import { optionsCommune, optionsQualite } from "@/api/queries";
 import { EtatSection } from "@/components/EtatSection";
+import { LogoAmbiens } from "@/components/LogoAmbiens";
 import { Surtitre } from "@/components/Surtitre";
 import { SectionContexte } from "@/features/contexte/SectionContexte";
 import { DemanderIA } from "@/features/demander-ia/DemanderIA";
@@ -25,9 +26,12 @@ function App() {
   return (
     <div className="mx-auto flex min-h-dvh max-w-3xl flex-col gap-6 px-4 py-5 sm:gap-8 sm:py-6">
       <header className="flex flex-col gap-1">
-        <h1 className="font-heading text-xl font-semibold tracking-tight">
-          Ambiens
-        </h1>
+        <div className="flex items-center gap-2.5">
+          <LogoAmbiens className="size-7 shrink-0" />
+          <h1 className="font-heading text-xl font-semibold tracking-tight">
+            Ambiens
+          </h1>
+        </div>
         <p className="text-sm text-muted-foreground">
           L&apos;eau du robinet de votre commune, d&apos;après les contrôles
           sanitaires officiels.
