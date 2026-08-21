@@ -2,6 +2,7 @@ import { expect, test } from "vitest";
 import type { Commune } from "@/api/geo";
 import type { BilanReseau, ResultatDis } from "@/api/hubeau-qualite";
 import type { Restriction } from "@/api/vigieau";
+import { formatEntier } from "@/features/formats";
 import { construireCiblesIA } from "@/features/demander-ia/cibles";
 import { construireInvite } from "@/features/demander-ia/invite";
 import { URL_LLMS_TXT } from "@/lib/constantes";
@@ -79,6 +80,8 @@ const RESTRICTION: Restriction = {
   usagesParticuliers: [],
 };
 
+const MAINTENANT = new Date("2026-04-20T10:00:00Z").getTime();
+
 function inviteDecodee(url: string): string {
   const parametre = new URL(url).searchParams.get("q");
   expect(parametre).not.toBeNull();
@@ -86,7 +89,12 @@ function inviteDecodee(url: string): string {
 }
 
 function inviteAnnecy(restrictions: Restriction[] | null = null): string {
-  return construireInvite({ commune: COMMUNE, bilans: BILANS, restrictions });
+  return construireInvite({
+    commune: COMMUNE,
+    bilans: BILANS,
+    restrictions,
+    maintenant: MAINTENANT,
+  });
 }
 
 test("l'invite porte les quatre balises du contrat", () => {
@@ -110,7 +118,9 @@ test("les données embarquent le verdict, le réseau et la conclusion de l'ARS",
     "Réseau ANNECY CENTRE — prélèvement du 9 avril 2026, distributeur CA DU GRAND ANNECY.",
   );
   expect(invite).toContain("Conclusion ARS : « Eau non conforme. »");
-  expect(invite).toContain("2 paramètres analysés, 2 dépassements.");
+  expect(invite).toContain(
+    "2 paramètres analysés (1 microbiologie, 1 physico-chimie), 2 dépassements.",
+  );
   expect(invite).toContain("Réseau Réseau non identifié : aucun résultat");
 });
 
@@ -133,8 +143,11 @@ test("un prélèvement conforme ne liste aucun dépassement", () => {
       },
     ],
     restrictions: null,
+    maintenant: MAINTENANT,
   });
-  expect(invite).toContain("1 paramètre analysé, 0 dépassement.");
+  expect(invite).toContain(
+    "1 paramètre analysé (1 physico-chimie), 0 dépassement.",
+  );
   expect(invite).not.toContain("Dépassements :");
 });
 
@@ -145,6 +158,7 @@ test("le désaccord ARS/recalcul est signalé quand il existe", () => {
       { ...BILANS[0], evaluation: { verdict: "conforme", desaccord: true } },
     ],
     restrictions: null,
+    maintenant: MAINTENANT,
   });
   expect(invite).toContain("Désaccord : l'ARS conclut conforme");
   expect(inviteAnnecy()).not.toContain("Désaccord :");
@@ -170,9 +184,12 @@ test("la liste des dépassements est plafonnée à huit par réseau", () => {
       },
     ],
     restrictions: null,
+    maintenant: MAINTENANT,
   });
 
-  expect(invite).toContain("12 paramètres analysés, 12 dépassements.");
+  expect(invite).toContain(
+    "12 paramètres analysés (12 physico-chimie), 12 dépassements.",
+  );
   expect(invite).toContain("Pesticide 7 5 µg/L (seuil <=0,1 µg/L)");
   expect(invite).not.toContain("Pesticide 8");
   expect(invite).toContain("; et 4 autres");
@@ -196,6 +213,7 @@ test("le détail cumulé s'arrête à douze dépassements sur toute l'invite", (
     commune: COMMUNE,
     bilans: [reseau("A"), reseau("B"), reseau("C")],
     restrictions: null,
+    maintenant: MAINTENANT,
   });
 
   expect(invite.split("(seuil ")).toHaveLength(13);
@@ -203,9 +221,9 @@ test("le détail cumulé s'arrête à douze dépassements sur toute l'invite", (
   expect(invite).toContain("; et 4 autres");
   expect(invite).not.toContain("C pesticide");
   // Le compte reste juste même quand le détail s'arrête.
-  expect(invite.split("8 paramètres analysés, 8 dépassements.")).toHaveLength(
-    4,
-  );
+  expect(
+    invite.split("8 paramètres analysés (8 physico-chimie), 8 dépassements."),
+  ).toHaveLength(4);
 });
 
 test("la sécheresse n'apparaît que si le cache VigiEau la porte déjà", () => {
@@ -247,25 +265,35 @@ test("chaque cible reçoit la même invite, décodable depuis son URL", () => {
 
 // L'invite embarque une synthèse : sa taille suit les données, et ce plafond
 // est le seul garde-fou contre une URL que les cibles tronqueraient.
-test("l'URL générée reste sous 6 000 caractères au pire cas", () => {
-  const depassements = Array.from({ length: 12 }, (_, index) =>
-    ligne({
-      libelle_parametre: `Hydrocarbures polycycliques aromatiques (somme de ${String(index)} substances)`,
-      resultat_numerique: 5,
-      resultat_alphanumerique: "5,2",
-      libelle_unite: "µg/L",
-      limite_qualite_parametre: "<=0,1 µg/L",
-      conclusion_conformite_prelevement:
-        "Eau d'alimentation non conforme aux limites de qualité réglementaires pour les paramètres microbiologiques et physico-chimiques.",
-    }),
-  );
+test("l'URL générée reste sous 6 000 caractères dans le pire cas", () => {
+  // 62 caractères : le plus long libellé de la fixture SISE-Eaux réelle.
+  const nomLong = (prefixe: string, index: number) =>
+    `${prefixe}${String(index)} de 4 substances perfluoroalkylées (PFOA+PFNA+PFHXS)`;
+  const prelevement = [
+    ...Array.from({ length: 12 }, (_, index) =>
+      ligne({
+        libelle_parametre: nomLong("Somme", index),
+        resultat_alphanumerique: "5",
+        libelle_unite: "µg/L",
+        limite_qualite_parametre: "<=0,1 µg/L",
+      }),
+    ),
+    ...Array.from({ length: 40 }, (_, index) =>
+      ligne({
+        libelle_parametre: nomLong("Total", index),
+        resultat_alphanumerique: "0,0196",
+        libelle_unite: "mg/L",
+        reference_qualite_parametre: "<=0,7 mg/L",
+      }),
+    ),
+  ];
   const reseau: BilanReseau = {
     reseau: {
       code: "074000198",
-      nom: "SYNDICAT INTERCOMMUNAL DES EAUX DES ROCAILLES ET DE BELLECOMBE",
-      quartier: null,
+      nom: "SYNDICAT INTERCOMMUNAL DES EAUX DU BAS-CHABLAIS",
+      quartier: "Quartier nord",
     },
-    prelevement: depassements,
+    prelevement,
     evaluation: { verdict: "non_conforme", desaccord: true },
   };
   const invite = construireInvite({
@@ -273,11 +301,166 @@ test("l'URL générée reste sous 6 000 caractères au pire cas", () => {
       ...COMMUNE,
       nom: "Saint-Remy-en-Bouzemont-Saint-Genest-et-Isson",
     },
-    bilans: [reseau, reseau, reseau, reseau],
-    restrictions: [RESTRICTION],
+    bilans: Array.from({ length: 30 }, () => reseau),
+    restrictions: [
+      {
+        ...RESTRICTION,
+        usagesParticuliers: Array.from({ length: 6 }, (_, index) => ({
+          nom: `Usage restreint numéro ${String(index)}`,
+          thematique: "Arrosage",
+          description:
+            "Interdiction de 9 h à 20 h sauf dérogation préfectorale",
+        })),
+      },
+    ],
+    maintenant: MAINTENANT,
   });
 
   for (const cible of construireCiblesIA(invite)) {
     expect(cible.url.length).toBeLessThan(6000);
   }
+});
+
+test("au-delà de trois réseaux, les autres sont résumés sans être perdus", () => {
+  const reseau = (
+    nom: string,
+    verdict: BilanReseau["evaluation"]["verdict"],
+  ) => ({
+    reseau: { code: nom, nom, quartier: null },
+    prelevement: [ligne({ libelle_parametre: `Nitrates ${nom}` })],
+    evaluation: { verdict, desaccord: false },
+  });
+  const invite = construireInvite({
+    commune: COMMUNE,
+    bilans: [
+      reseau("A", "conforme"),
+      reseau("B", "conforme"),
+      reseau("C", "conforme"),
+      reseau("D", "conforme"),
+      reseau("GRAVE", "non_conforme"),
+    ],
+    restrictions: null,
+    maintenant: MAINTENANT,
+  });
+
+  // Le réseau non conforme passe devant : il ne peut pas tomber dans le résumé.
+  expect(invite).toContain("Réseau GRAVE —");
+  expect(invite).toContain(
+    "Et 2 autres réseaux, non détaillés ici : 2 eau conforme.",
+  );
+});
+
+test("les mesures quantifiées sont listées, les non détectés comptés", () => {
+  const invite = construireInvite({
+    commune: COMMUNE,
+    bilans: [
+      {
+        reseau: { code: "074000198", nom: "ANNECY CENTRE", quartier: "Bourg" },
+        prelevement: [
+          ligne({
+            libelle_parametre: "Nitrates (en NO3)",
+            resultat_alphanumerique: "12",
+            libelle_unite: "mg/L",
+            limite_qualite_parametre: "<=50 mg/L",
+          }),
+          ligne({
+            libelle_parametre: "Titre hydrotimétrique",
+            resultat_alphanumerique: "29,6",
+            libelle_unite: "°f",
+          }),
+          ligne({
+            libelle_parametre: "Glyphosate",
+            resultat_alphanumerique: "<0,020",
+            libelle_unite: "µg/L",
+            limite_qualite_parametre: "<=0,1 µg/L",
+          }),
+          ligne({
+            libelle_parametre: "Atrazine",
+            resultat_alphanumerique: "<0,005",
+            libelle_unite: "µg/L",
+            limite_qualite_parametre: "<=0,1 µg/L",
+          }),
+        ],
+        evaluation: { verdict: "conforme", desaccord: false },
+      },
+    ],
+    restrictions: null,
+    maintenant: MAINTENANT,
+  });
+
+  expect(invite).toContain("Nitrates (en NO3) 12 mg/L (seuil <=50 mg/L)");
+  expect(invite).toContain("Titre hydrotimétrique 29,6 °f");
+  expect(invite).toContain(
+    "Non détectés : 2 paramètres sous le seuil de quantification.",
+  );
+  expect(invite).not.toContain("Glyphosate");
+  expect(invite).toContain("Réseau ANNECY CENTRE (Bourg)");
+});
+
+test("un paramètre répété ne sort qu'une fois, et le relevé de terrain est écarté", () => {
+  const conductivite = (valeur: string) =>
+    ligne({
+      libelle_parametre: "Conductivité à 25°C",
+      resultat_alphanumerique: valeur,
+      libelle_unite: "µS/cm",
+    });
+  const invite = construireInvite({
+    commune: COMMUNE,
+    bilans: [
+      {
+        reseau: { code: "074000198", nom: "ANNECY CENTRE", quartier: null },
+        prelevement: [
+          conductivite("572"),
+          conductivite("567"),
+          ligne({
+            libelle_parametre: "Pluviométrie-48h",
+            resultat_alphanumerique: "0",
+            libelle_unite: "mm/48h",
+          }),
+        ],
+        evaluation: { verdict: "conforme", desaccord: false },
+      },
+    ],
+    restrictions: null,
+    maintenant: MAINTENANT,
+  });
+
+  expect(invite).toContain("Conductivité à 25°C 572 µS/cm");
+  expect(invite).not.toContain("567");
+  expect(invite).not.toContain("Pluviométrie");
+});
+
+test("un prélèvement de plus de six mois porte un avertissement de fraîcheur", () => {
+  const vieux = construireInvite({
+    commune: COMMUNE,
+    bilans: BILANS,
+    restrictions: null,
+    maintenant: new Date("2027-04-20T10:00:00Z").getTime(),
+  });
+  expect(vieux).toContain("Fraîcheur : prélèvement de plus de six mois");
+  expect(inviteAnnecy()).not.toContain("Fraîcheur :");
+});
+
+test("les usages restreints accompagnent le niveau de sécheresse", () => {
+  const invite = inviteAnnecy([
+    {
+      ...RESTRICTION,
+      usagesParticuliers: [
+        {
+          nom: "Arrosage des jardins potagers",
+          thematique: "Arrosage",
+          description: "Interdiction de 9 h à 20 h",
+        },
+      ],
+    },
+  ]);
+  expect(invite).toContain(
+    "Usages restreints : Arrosage des jardins potagers : Interdiction de 9 h à 20 h",
+  );
+});
+
+test("la tâche situe la date du jour et les données la population", () => {
+  const invite = inviteAnnecy();
+  expect(invite).toContain("Nous sommes le 20 avril 2026.");
+  expect(invite).toContain(`${formatEntier(130721)} habitants.`);
 });

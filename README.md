@@ -53,11 +53,14 @@ dépôt : ce fichier est un pointeur lisible, pas une directive appliquée.
 
 Côté humain, le bouton « Demander à une IA » sous le verdict ouvre ChatGPT,
 Claude ou Perplexity avec une invite pré-remplie, ou la copie dans le
-presse-papiers. L'invite embarque la synthèse déjà affichée — verdict, réseaux,
-dépassements avec leur valeur et leur seuil — et renvoie à `llms.txt` pour la
-méthode et les sources. L'IA n'a donc pas à refaire les requêtes ; la seule
-recherche qui lui est demandée porte sur d'éventuelles alertes récentes. Sa
-taille suit les données, et un test la borne à 6 000 caractères par URL.
+presse-papiers. L'invite embarque la synthèse déjà affichée : verdict, réseaux,
+dépassements avec leur valeur et leur seuil, mesures quantifiées, fraîcheur du
+prélèvement et restrictions sécheresse en vigueur. Ce qui n'a pas été détecté se
+compte au lieu de se lister — une campagne pesticides aligne trois cents lignes
+sous le seuil de quantification pour la même information. L'IA n'a donc pas à
+refaire les requêtes ; la seule recherche qui lui est demandée porte sur
+d'éventuelles alertes récentes. Des plafonds bornent l'URL sous 6 000
+caractères, tenus par un test.
 
 ## Limites
 

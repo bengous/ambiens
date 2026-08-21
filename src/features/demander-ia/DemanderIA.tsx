@@ -37,10 +37,14 @@ export function DemanderIA({ commune, bilans }: DemanderIAProps) {
     ...optionsVigieau(commune.code),
     enabled: false,
   });
+  // L'horloge est un état externe : la lire pendant le rendu rendrait le
+  // composant non idempotent.
+  const [maintenant] = useState(() => Date.now());
   const invite = construireInvite({
     commune,
     bilans,
     restrictions: restrictions ?? null,
+    maintenant,
   });
   const cibles = construireCiblesIA(invite);
   const [copie, setCopie] = useState(false);

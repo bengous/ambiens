@@ -58,6 +58,8 @@ const distance = new Intl.NumberFormat("fr-FR", {
   maximumFractionDigits: 1,
 });
 
+const entier = new Intl.NumberFormat("fr-FR");
+
 const mesure = new Intl.NumberFormat("fr-FR", {
   maximumSignificantDigits: 3,
 });
@@ -86,4 +88,8 @@ export function valeurMesuree(ligne: ResultatDis): string {
   return unite !== null && unite !== "SANS OBJET"
     ? `${valeur} ${unite}`
     : valeur;
+}
+
+export function formatEntier(valeur: number): string {
+  return entier.format(valeur);
 }
