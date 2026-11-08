@@ -11,9 +11,10 @@ river and groundwater context. GitHub Pages under `/ambiens/`.
   (4173) — both serve under `/ambiens/`.
 - Gate before any delivery: `bun run typecheck && bun run lint && bun run format:check && bun run test:ci`.
 - Every version is pinned exact — deps, actions (full SHA), runner image, Bun
-  (`packageManager`). Add a dep with `bun add --exact`: plain `bun add` writes a
-  `^` range. Bumps come from Renovate (`renovate.json`), not by hand; majors wait
-  for approval on the Dependency Dashboard issue.
+  and Node (the stack-watch registry tag `mise.toml` includes). Add a dep with
+  `bun add --exact`: plain `bun add` writes a `^` range. Bumps come from Renovate
+  (`renovate.json`), not by hand; majors wait for approval on the Dependency
+  Dashboard issue.
 
 ## Architecture
 
