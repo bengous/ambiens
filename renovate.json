@@ -3,6 +3,7 @@
   "extends": ["config:best-practices", ":semanticCommitsDisabled"],
   "timezone": "Europe/Paris",
   "schedule": ["before 4am on monday"],
+  "minimumReleaseAge": "3 days",
   "rangeStrategy": "pin",
   "prConcurrentLimit": 5,
   "osvVulnerabilityAlerts": true,
